@@ -16,7 +16,7 @@ use App\Model\Game;
 class AbsensiController extends Controller
 {
     public function index(){
-        $untuk_row = DB::table('absensi_users')->count();
+      $untuk_row = DB::table('absensi_users')->count();
 
     	$tahun = Carbon::now()->format('Y');
     	$bulan = Carbon::now()->format('m');
@@ -160,13 +160,42 @@ class AbsensiController extends Controller
 
     public function indextanggal($input){
       $untuk_row = DB::table('absensi_users')->count();
-      $show = $this->getData('absensi_masuk' , 'asc' , $input);
+      $inputan = new DateTime($input);
+      $tahun = $inputan->format('Y');
+      $bulan = $inputan->format('m');
+      $hari = $inputan->format('d');
+      $show = DB::table('absensi_rekap')
+       ->join('absensi_users', function ($join) {
+           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
+       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
+       ->orderBy('absensi_rekap.absensi_masuk', 'asc')
+       ->whereNotNull('absensi_rekap.absensi_masuk')
+       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
+           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
+               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
+                      ->where('absensi_rekap.absensi_masuk', '<=', '8')
+       ->get();
       return view('Absensi_Javan.AbsenTanggal', compact('show','untuk_row','input'));
     }
 
     public function indexjammasukterlambattanggal($input){
       $untuk_row = DB::table('absensi_users')->count();
-      $show = $this->getData('absensi_masuk' , 'desc' , $input);
+      $inputan = new DateTime($input);
+      $tahun = $inputan->format('Y');
+      $bulan = $inputan->format('m');
+      $hari = $inputan->format('d');
+      $show = DB::table('absensi_rekap')
+       ->join('absensi_users', function ($join) {
+           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
+       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
+       ->orderBy('absensi_rekap.absensi_masuk', 'desc')
+       ->whereNotNull('absensi_rekap.absensi_masuk')
+       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
+           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
+               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
+       ->get();
+     
+      
       return view('Absensi_Javan.AbsenTanggal', compact('show','untuk_row','input'));
     }
 
@@ -227,24 +256,4 @@ class AbsensiController extends Controller
       return view('Absensi_Javan.AbsenTanggal', compact('show','untuk_row','input'));
 
     }
-
-    private function getData($orderBy ,$order ,$input){
-      $tahun = Carbon::now()->format('Y');
-      $bulan = Carbon::now()->format('m');
-      $hari = Carbon::now()->format('d');
-      $show = DB::table('absensi_rekap')
-       ->join('absensi_users', function ($join) {
-           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
-       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-       ->orderBy('absensi_rekap.' . $orderBy, $order)
-       ->whereNotNull('absensi_rekap.absensi_masuk')
-       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
-               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
-       ->get();
-       return $show;
-    }
-
-
-
 }

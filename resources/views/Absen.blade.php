@@ -21,7 +21,7 @@
 	<script src="{{ asset('js/modernizr.js') }}"></script> 
 	
 	<!-- date picker -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/foundation-datepicker.min.css') }}">
 
 	<!-- circular -->
 	<script src="{{ asset('js/jquery.js') }}"></script>
@@ -239,18 +239,7 @@
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('js/nprogress.js') }}"></script>
 	<script src="{{ asset('js/main.js') }}"></script>
-	<script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
-
-<script>
-$('#dp1').datepicker({
-   format: "dd/mm/yyyy",
-   endDate: "+Infinity",
-   todayBtn: "linked",
-   clearBtn: true,
-   daysOfWeekDisabled: "0,6",
-   autoclose: true
-});
-</script>
+	<script src="{{ asset('js/foundation-datepicker.min.js') }}"></script>
 
 <!-- other script here -->
 <script>
