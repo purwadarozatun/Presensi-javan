@@ -38,3 +38,7 @@ Route::get('indexjamkeluar/cari/berdasarkan/tanggal/{input}', 'AbsensiController
 Route::get('indexnama/cari/berdasarkan/tanggal/{input}', 'AbsensiController@indexnamatanggal');
 
 Route::get('indextidakmasuk/cari/berdasarkan/tanggal/{input}', 'AbsensiController@indextidakmasuktanggal');
+
+
+//TEST PAGE 
+Route::get('/test','AbsensiController@TestPage');

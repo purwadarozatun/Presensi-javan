@@ -256,4 +256,9 @@ class AbsensiController extends Controller
       return view('Absensi_Javan.AbsenTanggal', compact('show','untuk_row','input'));
 
     }
+
+    public function TestPage(){
+      return view('List');
+    }
+
 }
