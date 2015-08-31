@@ -39,6 +39,6 @@ Route::get('indexnama/cari/berdasarkan/tanggal/{input}', 'AbsensiController@inde
 
 Route::get('indextidakmasuk/cari/berdasarkan/tanggal/{input}', 'AbsensiController@indextidakmasuktanggal');
 
+Route::get('historyperbulan/{id}', 'AbsensiController@historybulanini');
 
-//TEST PAGE 
-Route::get('/test','AbsensiController@TestPage');
+Route::post('historyabsenperbulan/{id}','AbsensiController@historyperbulan');

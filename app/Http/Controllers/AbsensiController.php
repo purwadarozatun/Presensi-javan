@@ -11,7 +11,6 @@ use absensi_javan\Absensi_Raw;
 use absensi_javan\Absensi_Rekap;
 use DB;
 use DateTime;
-use App\Model\Game;
 
 class AbsensiController extends Controller
 {
@@ -257,8 +256,37 @@ class AbsensiController extends Controller
 
     }
 
-    public function TestPage(){
-      return view('List');
+    public function historybulanini($id){
+      $tahun = Carbon::now()->format('Y');
+      $bulan = Carbon::now()->format('m');
+      $show = DB::table('absensi_rekap')
+        ->join('absensi_users', function ($join) {
+            $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
+              })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
+              ->where( DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
+              ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
+              ->where( 'absensi_rekap.absensi_pin', '=', $id )
+           ->get();
+      $nama = DB::select('select absensi_nama_lengkap from absensi_users where absensi_pin = ?', [$id])[0]->absensi_nama_lengkap;
+      
+      return view('List', compact('show', 'id', 'nama'));
+    }
+
+    public function historyperbulan(Requests\BulanTahun $request, $id){
+      $month = $request->get('bulan');
+      $year = $request->get('tahun');
+
+      $show = DB::table('absensi_rekap')
+      ->join('absensi_users', function ($join) {
+            $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
+              })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
+              ->where( DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($year) )
+              ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($month) )
+              ->where( 'absensi_rekap.absensi_pin', '=', $id )
+           ->get();  
+      $nama = DB::select('select absensi_nama_lengkap from absensi_users where absensi_pin = ?', [$id])[0]->absensi_nama_lengkap;
+      return view('List', compact('show', 'id', 'nama', 'month', 'year'));
+
     }
 
 }

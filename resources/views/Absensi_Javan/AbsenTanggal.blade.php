@@ -179,7 +179,9 @@
 				<!-- default-->
 
 					<center>
+					<a href="{{ url('historyperbulan', $shows->absensi_pin) }}">
 						<div id="myStat{{ $shows->id }}" data-dimension="200" data-text="<?php echo $durasireal; ?>" data-info="Durasi Kerja" data-width="20" data-fontsize="38" data-percent="<?php if($durasireal==""){ $rumus=0; } else{echo $rumus; }?>" data-fgcolor="#61a9dc" data-bgcolor="#eee" data-category="transition"></div>
+					</a>
 					</center>
 
 					<center><b class="name">{{ $shows->absensi_nama_lengkap }}</b>
@@ -201,7 +203,9 @@
 				}elseif($jammasukreal>'08.00'){
 				?>
 					<center>
+					<a href="{{ url('historyperbulan', $shows->absensi_pin) }}">
 						<div id="myStat{{ $shows->id }}" data-dimension="200" data-text="<?php echo $durasireal; ?>" data-info="Durasi Kerja" data-width="20" data-fontsize="38" data-percent="<?php if($durasireal==""){ $rumus=0; } else{echo $rumus; }?>" data-fgcolor="#d9534f" data-bgcolor="#eee" data-category="transition"></div>
+					</a>
 					</center>
 
 					<center><b class="name">{{ $shows->absensi_nama_lengkap }}</b>
