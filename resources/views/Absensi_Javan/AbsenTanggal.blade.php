@@ -87,14 +87,6 @@
                 </div>
             </div><!-- col -->
         </div><!-- col 12-->
-
-        <div class="col-sm-12 com-md-3">
-        	<div class="form-group">
-        		<label>Cari Nama</label>
-        		<input type="text" class="form-control" id="carinama" placeholder="Masukan Nama...">
-        	</div>
-        </div>
-
 		@foreach($show as $shows)
 			<!-- other -->
 			<?php 
