@@ -29,6 +29,7 @@
 	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
 	<script src="{{ asset('js/jquery.circliful.min.js') }}"></script>
 
+	
 	<style>
 	body {
 	    font-family: arial,verdana, sans-serif;
@@ -88,6 +89,7 @@
             </div><!-- col -->
         </div><!-- col 12-->
 
+		<section class="sieve">
 		@foreach($show as $shows)
 			<!-- other -->
 			<?php 
@@ -137,7 +139,7 @@
 			$izin = $shows->absensi_izin;
 			?>
 			<!-- batas -->
-			<div class="col-sm-12 col-md-3">
+			<div class="col-sm-12 col-md-3 pegawai">
 				<div class="row">
 				<!-- default -->
 				<?php
@@ -150,25 +152,25 @@
 					?>
 						<i class="fa fa-medkit fa-5x"></i>
 						<br><h4><div class="label label-primary">Sakit</div></h4>
-						<b class="name">{{ $shows->absensi_nama_lengkap }}</b><br><br>
+						<a href="{{ url('historyperbulan', $shows->absensi_pin) }}"><b class="name">{{ $shows->absensi_nama_lengkap }}</b></a><br><br>
 					<?php
 					}elseif($stat=="Dinas Luar Kota"){
 					?>
 						<i class="fa fa-building fa-5x"></i>
 						<br><h4><div class="label label-primary">Dinas Luar Kota</div></h4>
-						<b class="name">{{ $shows->absensi_nama_lengkap }}</b><br><br>
+						<a href="{{ url('historyperbulan', $shows->absensi_pin) }}"><b class="name">{{ $shows->absensi_nama_lengkap }}</b></a><br><br>
 					<?php
 					}elseif($stat=="Izin"){
 					?>
 						<i class="fa fa-exclamation-triangle fa-5x"></i>
 						<br><h4><div class="label label-primary">Izin</div></h4>
-						<b class="name">{{ $shows->absensi_nama_lengkap }}</b><br><br>
+						<a href="{{ url('historyperbulan', $shows->absensi_pin) }}"><b class="name">{{ $shows->absensi_nama_lengkap }}</b></a><br><br>
 					<?php
 					}else{
 					?>
 						<i class="fa fa-minus-circle fa-5x"></i>
 						<br><h4><div class="label label-danger">No Status</div></h4>
-						<b class="name">{{ $shows->absensi_nama_lengkap }}</b><br><br>
+						<a href="{{ url('historyperbulan', $shows->absensi_pin) }}"><b class="name">{{ $shows->absensi_nama_lengkap }}</b></a><br><br>
 					<?php
 					}
 					?>
@@ -230,7 +232,7 @@
 				</div><!-- row -->
 			</div><!-- col -->
 		@endforeach
-
+		</section><!-- batas grab container seive-->
 		</div><!-- col -->
 
 
@@ -245,6 +247,16 @@
 	<script src="{{ asset('js/main.js') }}"></script>
 	<script src="{{ asset('js/foundation-datepicker.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+	<!-- sieve search -->
+	<script type="text/javascript" src="{{ asset('jquery-sieve-master/dist/jquery.sieve.js') }}"></script>
+
+<!-- script untuk search -->
+ <script>
+    $(document).ready(function() {
+      $("section.sieve").sieve({ itemSelector: ".pegawai" });
+    }); 
+ </script>
+<!-- batas -->
 
 <!-- other script here -->
 <script>

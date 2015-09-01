@@ -48,7 +48,7 @@
 			$Bulan = 'Desember';
 		} 
 		?>
-	<h2>Bulan {{$Bulan}} - {{$year}}</h2>
+	<h2>{{$Bulan}} - {{$year}}</h2>
     <ol class="breadcrumb">
       <li><a href="{{ url('/index') }}">Home</a></li>
       <li class="active">History</li>
@@ -140,13 +140,13 @@
 		?>
 		<!-- batas -->
 		
-		@if($jamkerja == '00:00' AND $jammasukreal == null AND $jamkeluar == null)
+		@if($jamkerja == '00:00' AND $jammasukreal == null AND $jamkeluar == null AND $izin == null)
 			<tr class="warning">
 			    <td>{{ $shows->absensi_tanggal }}</td>
 			    <td><?php echo $jammasukreal; ?></td>
 			    <td><?php echo $jamkeluar; ?></td>
 			    <td>{{$jamkerja}}</td>
-			    <td>Hadir</td>
+			    <td>Tidak Hadir</td>
 			    <td>@if($jamkerja == '00.00')
 					<div class="label label-success"></div>
 			    	@endif
@@ -167,6 +167,15 @@
 					@elseif($jamkerja < 9 AND $jamkeluar != null)
 					<div class="label label-danger">Pulang Cepat</div>
 					@endif</td>
+		    </tr>
+		    @elseif($izin != null)
+		    <tr class="info">
+			    <td>{{ $shows->absensi_tanggal }}</td>
+			    <td><?php echo $jam_masuk; ?></td>
+			    <td><?php echo $jam_keluar; ?></td>
+			    <td>{{$jamkerja}}</td>
+			    <td><?php echo $izin; ?></td>
+			    <td>-</td>
 		    </tr>
 		    @elseif($jamkerja < 9)
 			<tr class="danger">
@@ -225,16 +234,8 @@
 					@endif</td>
 		    </tr>
 		    @endif
-		    @if($izin != null)
-		    <tr class="info">
-			    <td>{{ $shows->absensi_tanggal }}</td>
-			    <td><?php echo $jam_masuk; ?></td>
-			    <td><?php echo $jam_keluar; ?></td>
-			    <td>{{$jamkerja}}</td>
-			    <td><?php echo $izin; ?></td>
-			    <td>-</td>
-		    </tr>
-		    @endif
+		    
+		    
 			@endforeach
 		    
 		    </tbody>
