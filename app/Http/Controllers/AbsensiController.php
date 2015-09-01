@@ -35,62 +35,28 @@ class AbsensiController extends Controller
     }
 
     public function indexjammasukterlambat(){
-      $untuk_row = DB::table('absensi_users')->count();
+    $untuk_row = DB::table('absensi_users')->count();
 
-      $tahun = Carbon::now()->format('Y');
-      $bulan = Carbon::now()->format('m');
-      $hari = Carbon::now()->format('d');
-      $show = DB::table('absensi_rekap')
-       ->join('absensi_users', function ($join) {
-           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
-       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-       ->orderBy('absensi_rekap.absensi_masuk', 'desc')
-       ->whereNotNull('absensi_rekap.absensi_masuk')
-       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
-               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
-       ->get();
-     
-      
-      return view('Absen', compact('show','untuk_row'));
+    $show = $this->indexsort('absensi_rekap.absensi_masuk', 'desc');
+
+    return view('Absen', compact('show', 'untuk_row'));
     }
 
     public function indexjamkeluar(){
       $untuk_row = DB::table('absensi_users')->count();
 
-      $tahun = Carbon::now()->format('Y');
-      $bulan = Carbon::now()->format('m');
-      $hari = Carbon::now()->format('d');
-      $show = DB::table('absensi_rekap')
-       ->join('absensi_users', function ($join) {
-           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
-       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-       ->orderBy('absensi_rekap.absensi_keluar', 'asc')
-       ->whereNotNull('absensi_rekap.absensi_masuk')
-       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
-               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
-       ->get();
+      $show = $this->indexsort('absensi_rekap.absensi_keluar', 'asc');
+      
       return view('Absen', compact('show','untuk_row'));
     }
 
     public function indexnama(){
-      $untuk_row = DB::table('absensi_users')->count();
+       $untuk_row = DB::table('absensi_users')->count();
 
-      $tahun = Carbon::now()->format('Y');
-      $bulan = Carbon::now()->format('m');
-      $hari = Carbon::now()->format('d');
-      $show = DB::table('absensi_rekap')
-       ->join('absensi_users', function ($join) {
-           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
-       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-       ->orderBy('absensi_users.absensi_nama_lengkap', 'asc')
-       ->whereNotNull('absensi_rekap.absensi_masuk')
-       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
-               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
-       ->get();
+       $show = $this->indexsort('absensi_users.absensi_nama_lengkap', 'asc');
+      
       return view('Absen', compact('show','untuk_row'));
+
     }
 
     public function indextidakmasuk(){
@@ -111,29 +77,6 @@ class AbsensiController extends Controller
        ->get();
       return view('Absen', compact('show','untuk_row'));
 
-    }
-
-    public function cobaangularjs(){
-      $untuk_row = DB::table('absensi_users')->count();
-
-      $tahun = Carbon::now()->format('Y');
-      $bulan = Carbon::now()->format('m');
-      $hari = Carbon::now()->format('d');
-      $show = DB::table('absensi_rekap')
-       ->join('absensi_users', function ($join) {
-           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
-       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-       ->orderBy('absensi_rekap.absensi_masuk', 'asc')
-       ->having('absensi_rekap.absensi_masuk', '<', '8')
-       ->whereNotNull('absensi_rekap.absensi_masuk')
-       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
-               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
-       ->get();
-       $json = json_encode($show);
-
-       
-      return view('Absensi_Javan.AngilarJSIndex', compact('json'));
     }
 
     public function cari(Requests\Tanggal $request){
@@ -179,60 +122,27 @@ class AbsensiController extends Controller
 
     public function indexjammasukterlambattanggal($input){
       $untuk_row = DB::table('absensi_users')->count();
-      $inputan = new DateTime($input);
-      $tahun = $inputan->format('Y');
-      $bulan = $inputan->format('m');
-      $hari = $inputan->format('d');
-      $show = DB::table('absensi_rekap')
-       ->join('absensi_users', function ($join) {
-           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
-       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-       ->orderBy('absensi_rekap.absensi_masuk', 'desc')
-       ->whereNotNull('absensi_rekap.absensi_masuk')
-       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
-               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
-       ->get();
-     
+
+      $show = $this->tanggal($input, 'absensi_rekap.absensi_masuk', 'desc');
       
       return view('Absensi_Javan.AbsenTanggal', compact('show','untuk_row','input'));
     }
 
     public function indexjamkeluartanggal($input){
       $untuk_row = DB::table('absensi_users')->count();
-      $inputan = new DateTime($input);
-      $tahun = $inputan->format('Y');
-      $bulan = $inputan->format('m');
-      $hari = $inputan->format('d');
-      $show = DB::table('absensi_rekap')
-       ->join('absensi_users', function ($join) {
-           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
-       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-       ->orderBy('absensi_rekap.absensi_keluar', 'asc')
-       ->whereNotNull('absensi_rekap.absensi_masuk')
-       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
-               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
-       ->get();
+
+      $show = $this->tanggal($input, 'absensi_rekap.absensi_keluar', 'asc');
+      
       return view('Absensi_Javan.AbsenTanggal', compact('show','untuk_row','input'));
     }
 
+
+
     public function indexnamatanggal($input){
       $untuk_row = DB::table('absensi_users')->count();
-      $inputan = new DateTime($input);
-      $tahun = $inputan->format('Y');
-      $bulan = $inputan->format('m');
-      $hari = $inputan->format('d');
-      $show = DB::table('absensi_rekap')
-       ->join('absensi_users', function ($join) {
-           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
-       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-       ->orderBy('absensi_users.absensi_nama_lengkap', 'asc')
-       ->whereNotNull('absensi_rekap.absensi_masuk')
-       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
-               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
-       ->get();
+
+      $show = $this->tanggal($input, 'absensi_users.absensi_nama_lengkap', 'asc');
+      
       return view('Absensi_Javan.AbsenTanggal', compact('show','untuk_row','input'));
     }
 
@@ -287,6 +197,46 @@ class AbsensiController extends Controller
       $nama = DB::select('select absensi_nama_lengkap from absensi_users where absensi_pin = ?', [$id])[0]->absensi_nama_lengkap;
       return view('List', compact('show', 'id', 'nama', 'month', 'year'));
 
+    }
+
+
+    public function indexsort($tabelcolumn, $by){
+      $tahun = Carbon::now()->format('Y');
+      $bulan = Carbon::now()->format('m');
+      $hari = Carbon::now()->format('d');
+      $show = DB::table('absensi_rekap')
+       ->join('absensi_users', function ($join) {
+           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
+       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
+       ->orderBy($tabelcolumn, $by)
+       ->whereNotNull('absensi_rekap.absensi_masuk')
+       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
+           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
+               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
+       ->get();
+     
+      
+       return $show;
+    }
+
+    private function tanggal($input, $tabelcolumn, $by){
+      
+      $inputan = new DateTime($input);
+      $tahun = $inputan->format('Y');
+      $bulan = $inputan->format('m');
+      $hari = $inputan->format('d');
+      $show = DB::table('absensi_rekap')
+       ->join('absensi_users', function ($join) {
+           $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
+       })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
+       ->orderBy($tabelcolumn, $by)
+       ->whereNotNull('absensi_rekap.absensi_masuk')
+       ->where(  DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
+           ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
+               ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
+       ->get();
+       
+       return $show;
     }
 
 }

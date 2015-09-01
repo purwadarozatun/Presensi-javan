@@ -87,6 +87,7 @@
                 </div>
             </div><!-- col -->
         </div><!-- col 12-->
+        <section class="sieve">
 		@foreach($show as $shows)
 			<!-- other -->
 			<?php 
@@ -136,7 +137,7 @@
 			$izin = $shows->absensi_izin;
 			?>
 			<!-- batas -->
-			<div class="col-sm-12 col-md-3">
+			<div class="col-sm-12 col-md-3 pegawai">
 				<div class="row">
 				<!-- default -->
 				<?php
@@ -246,6 +247,16 @@
 	<script src="{{ asset('js/main.js') }}"></script>
 	<script src="{{ asset('js/foundation-datepicker.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+	<!-- sieve search -->
+	<script type="text/javascript" src="{{ asset('jquery-sieve-master/dist/jquery.sieve.js') }}"></script>
+
+<!-- script untuk search -->
+ <script>
+    $(document).ready(function() {
+      $("section.sieve").sieve({ itemSelector: ".pegawai" });
+    }); 
+ </script>
+<!-- batas -->
 
 <!-- other script here -->
 <script>
