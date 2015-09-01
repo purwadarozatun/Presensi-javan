@@ -22,6 +22,37 @@
 <body>
 <div class="container">
 	<div class="row">
+	<?php if ($month=='01') {
+		$Bulan = 'Januari';
+		}elseif ($month=='02') {
+			$Bulan = 'Februari';
+		}elseif ($month=='03') {
+			$Bulan = 'Maret';
+		}elseif ($month=='04') {
+			$Bulan = 'April';
+		}elseif ($month=='05') {
+			$Bulan = 'Mei';
+		}elseif ($month=='06') {
+			$Bulan = 'Juni';
+		}elseif ($month=='07') {
+			$Bulan = 'Juli';
+		}elseif ($month=='08') {
+			$Bulan = 'Agustus';
+		}elseif ($month=='09') {
+			$Bulan = 'September';
+		}elseif ($month=='10') {
+			$Bulan = 'Oktober';
+		}elseif ($month=='11') {
+			$Bulan = 'November';
+		}elseif ($month=='12') {
+			$Bulan = 'Desember';
+		} 
+		?>
+	<h2>Bulan {{$Bulan}} - {{$year}}</h2>
+    <ol class="breadcrumb">
+      <li><a href="{{ url('/index') }}">Home</a></li>
+      <li class="active">History</li>
+    </ol>
 	<div class="col-sm-12 col-md-12">
 		{!! Form::open(['url'=>['historyabsenperbulan', $id], 'method'=>'POST']) !!}
 			<br>
@@ -108,8 +139,36 @@
 		$izin = $shows->absensi_izin;
 		?>
 		<!-- batas -->
+		
+		@if($jamkerja == '00:00' AND $jammasukreal == null AND $jamkeluar == null)
+			<tr class="warning">
+			    <td>{{ $shows->absensi_tanggal }}</td>
+			    <td><?php echo $jammasukreal; ?></td>
+			    <td><?php echo $jamkeluar; ?></td>
+			    <td>{{$jamkerja}}</td>
+			    <td>Hadir</td>
+			    <td>@if($jamkerja == '00.00')
+					<div class="label label-success"></div>
+			    	@endif
 
-		    @if($jamkerja < 9)
+							@if($jammasukreal==null)
+							<div class="label label-success"></div>
+							@elseif($jammasukreal > '08.00')
+					    	<div class="label label-danger">Datang Terlambat</div>
+							@elseif($jammasukreal < '08.00')
+					    	<div class="label label-success">Datang Tepat Waktu</div>
+							@endif
+									@if($jamkeluar==null)
+									<div class="label label-success"></div>
+									@endif
+
+					@if($jamkerja >= 9)
+					<div class="label label-success">Jam Kerja Cukup</div>
+					@elseif($jamkerja < 9 AND $jamkeluar != null)
+					<div class="label label-danger">Pulang Cepat</div>
+					@endif</td>
+		    </tr>
+		    @elseif($jamkerja < 9)
 			<tr class="danger">
 			    <td>{{ $shows->absensi_tanggal }}</td>
 			    <td><?php echo $jammasukreal; ?></td>

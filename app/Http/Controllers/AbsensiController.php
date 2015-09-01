@@ -257,19 +257,19 @@ class AbsensiController extends Controller
     }
 
     public function historybulanini($id){
-      $tahun = Carbon::now()->format('Y');
-      $bulan = Carbon::now()->format('m');
+      $year = Carbon::now()->format('Y');
+      $month = Carbon::now()->format('m');
       $show = DB::table('absensi_rekap')
         ->join('absensi_users', function ($join) {
             $join->on('absensi_rekap.absensi_pin', '=', 'absensi_users.absensi_pin');
               })->select('absensi_rekap.*', 'absensi_users.absensi_nama_lengkap', 'absensi_users.id')
-              ->where( DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($tahun) )
-              ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($bulan) )
+              ->where( DB::raw('YEAR(absensi_rekap.absensi_tanggal)'), '=', date($year) )
+              ->where( DB::raw('MONTH(absensi_rekap.absensi_tanggal)'), '=', date($month) )
               ->where( 'absensi_rekap.absensi_pin', '=', $id )
            ->get();
       $nama = DB::select('select absensi_nama_lengkap from absensi_users where absensi_pin = ?', [$id])[0]->absensi_nama_lengkap;
       
-      return view('List', compact('show', 'id', 'nama'));
+      return view('List', compact('show', 'id', 'nama', 'month', 'year'));
     }
 
     public function historyperbulan(Requests\BulanTahun $request, $id){
