@@ -116,44 +116,52 @@
 			    <td><?php echo $jamkeluar; ?></td>
 			    <td>{{$jamkerja}}</td>
 			    <td>Hadir</td>
-			    <td>@if($jamkeluar==null)
+			    <td>@if($jamkerja == '00.00')
 					<div class="label label-success"></div>
-			    	@elseif($jamkerja=='00.00')
-					<div class="label label-success"></div>
-					@elseif($jammasukreal>'08.00')
-			    	<div class="label label-danger">Datang Terlambat</div>
-					@elseif($jammasukreal<='08.00')
-			    	<div class="label label-success">Datang Tepat Waktu</div>
-					@endif
-					@if($jammasukreal==null)
-					<div class="label label-success"></div>
-					@elseif($jamkerja>9)
+			    	@endif
+
+							@if($jammasukreal==null)
+							<div class="label label-success"></div>
+							@elseif($jammasukreal > '08.00')
+					    	<div class="label label-danger">Datang Terlambat</div>
+							@elseif($jammasukreal < '08.00')
+					    	<div class="label label-success">Datang Tepat Waktu</div>
+							@endif
+									@if($jamkeluar==null)
+									<div class="label label-success"></div>
+									@endif
+
+					@if($jamkerja >= 9)
 					<div class="label label-success">Jam Kerja Cukup</div>
-					@elseif($jamkerja<=9)
+					@elseif($jamkerja < 9 AND $jamkeluar != null)
 					<div class="label label-danger">Pulang Cepat</div>
 					@endif</td>
 		    </tr>
 		    @elseif($jamkerja >= 9)
 			<tr>
 			    <td>{{ $shows->absensi_tanggal }}</td>
-			    <td><?php echo $jam_masuk; ?></td>
-			    <td><?php echo $jam_keluar; ?></td>
+			    <td><?php echo $jammasukreal; ?></td>
+			    <td><?php echo $jamkeluar; ?></td>
 			    <td>{{$jamkerja}}</td>
 			    <td>Hadir</td>
-			    <td>@if($jamkeluar==null)
+			    <td>@if($jamkerja == '00.00')
 					<div class="label label-success"></div>
-			    	@elseif($jamkerja=='00.00')
-					<div class="label label-success"></div>
-					@elseif($jammasukreal>'08.00')
-			    	<div class="label label-danger">Datang Terlambat</div>
-					@elseif($jammasukreal<='08.00')
-			    	<div class="label label-success">Datang Tepat Waktu</div>
-					@endif
-					@if($jammasukreal==null)
-					<div class="label label-success"></div>
-					@elseif($jamkerja>9)
+			    	@endif
+
+							@if($jammasukreal==null)
+							<div class="label label-success"></div>
+							@elseif($jammasukreal > '08.00')
+					    	<div class="label label-danger">Datang Terlambat</div>
+							@elseif($jammasukreal < '08.00')
+					    	<div class="label label-success">Datang Tepat Waktu</div>
+							@endif
+									@if($jamkeluar==null)
+									<div class="label label-success"></div>
+									@endif
+
+					@if($jamkerja >= 9)
 					<div class="label label-success">Jam Kerja Cukup</div>
-					@elseif($jamkerja<=9)
+					@elseif($jamkerja < 9 AND $jamkeluar != null)
 					<div class="label label-danger">Pulang Cepat</div>
 					@endif</td>
 		    </tr>
