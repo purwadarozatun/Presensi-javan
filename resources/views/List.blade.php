@@ -60,24 +60,24 @@
 				<!-- dropdown bulan -->
 				<label>Bulan</label>
 				<select class="selectpicker show-tick" name="bulan">
-					<option value="01">Januari</option>
-					<option value="02">Februari</option>
-					<option value="03">Maret</option>
-					<option value="04">April</option>
-					<option value="05">Mei</option>
-					<option value="06">Juni</option>
-					<option value="07">Juli</option>
-					<option value="08">Agustus</option>
-					<option value="09">September</option>
-					<option value="10">Oktober</option>
-					<option value="11">November</option>
-					<option value="12">Desember</option>
+					<option value="01" <?php if ($month == '01') {echo 'selected="selected"';} ?> >Januari</option>
+					<option value="02" <?php if ($month == '02') {echo 'selected="selected"';} ?> >Februari</option>
+					<option value="03" <?php if ($month == '03') {echo 'selected="selected"';} ?> >Maret</option>
+					<option value="04" <?php if ($month == '04') {echo 'selected="selected"';} ?> >April</option>
+					<option value="05" <?php if ($month == '05') {echo 'selected="selected"';} ?> >Mei</option>
+					<option value="06" <?php if ($month == '06') {echo 'selected="selected"';} ?> >Juni</option>
+					<option value="07" <?php if ($month == '07') {echo 'selected="selected"';} ?> >Juli</option>
+					<option value="08" <?php if ($month == '08') {echo 'selected="selected"';} ?> >Agustus</option>
+					<option value="09" <?php if ($month == '09') {echo 'selected="selected"';} ?> >September</option>
+					<option value="10" <?php if ($month == '10') {echo 'selected="selected"';} ?> >Oktober</option>
+					<option value="11" <?php if ($month == '11') {echo 'selected="selected"';} ?> >November</option>
+					<option value="12" <?php if ($month == '12') {echo 'selected="selected"';} ?> >Desember</option>
 				</select>
 				<!-- dropdown tahun -->
 				&nbsp;&nbsp;&nbsp;<label>Tahun</label>
 				<select class="selectpicker show-tick" name="tahun">
 				@for($tahun=2015;$tahun<=2100;$tahun++)
-					<option value="{{ $tahun }}">{{ $tahun }}</option>
+					<option value="{{ $tahun }}" <?php if ($tahun == $year) {echo 'selected="selected"';} ?> >{{ $tahun }}</option>
 				@endfor
 				</select>
  
