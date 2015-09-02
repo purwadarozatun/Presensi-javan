@@ -36,12 +36,13 @@
 	    font-size: 12px;
 	}
 	</style>
+
 </head>
- <script>
+      <script>
         setTimeout(function(){
            window.location.reload(1);
         }, 30000);
-        </script>              
+        </script>         
 <body>
 
 <div id="progsesbar"></div>

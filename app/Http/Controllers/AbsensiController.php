@@ -31,6 +31,8 @@ class AbsensiController extends Controller
                ->where( DB::raw('DAY(absensi_rekap.absensi_tanggal)'), '=', date($hari) )
                       ->where('absensi_rekap.absensi_masuk', '<=', '8')
        ->get();
+       $json = json_encode($show);
+
     	return view('Absen', compact('show','untuk_row'));
     }
 
